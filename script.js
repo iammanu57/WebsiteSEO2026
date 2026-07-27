@@ -269,3 +269,21 @@ function initCarousel(carouselId) {
 }
 initCarousel("poetry-carousel");
 initCarousel("travel-carousel");
+function goTo(i) {
+  index = (i + total) % total;
+
+  // Detect mobile vs desktop
+  const isMobile = window.innerWidth <= 640;
+
+  // Match the CSS values
+  const slidePercent = isMobile ? 85 : 70;   // flex-basis
+  const marginPercent = isMobile ? 2 : 1.5;  // left + right margin each side
+  const step = slidePercent + marginPercent * 2;  // total width one slide occupies
+  const offset = (100 - slidePercent) / 2;         // centers the active slide
+
+  track.style.transform = `translateX(calc(${offset}% - ${index * step}%))`;
+
+  slides.forEach((s, si) => s.classList.toggle("active", si === index));
+  dots.forEach((d, di) => d.classList.toggle("active", di === index));
+}
+window.addEventListener("resize", () => goTo(index));
