@@ -181,7 +181,7 @@ function initCarousel(carouselId) {
   let index = 0;
   const total = slides.length;
 
-  // build dots
+  // ---------- Dots ----------
   if (dotsWrap) {
     dotsWrap.innerHTML = "";
     slides.forEach((_, i) => {
@@ -193,16 +193,14 @@ function initCarousel(carouselId) {
   }
   const dots = dotsWrap ? [...dotsWrap.querySelectorAll("button")] : [];
 
+  // ---------- Core navigation ----------
   function goTo(i) {
     index = (i + total) % total;
 
-    // center the active slide
-    // 70% width + 3% margins → each step is ~73% of container
-    const slideWidthPercent = 73;   // 70 + 1.5 + 1.5
-    const offset = 15;              // (100 - 70) / 2  → centers the active slide
+    const slideWidthPercent = 73;   // 70% + margins
+    const offset = 15;              // centers the active slide
     track.style.transform = `translateX(calc(${offset}% - ${index * slideWidthPercent}%))`;
 
-    // active state for blur / scale
     slides.forEach((s, si) => s.classList.toggle("active", si === index));
     dots.forEach((d, di) => d.classList.toggle("active", di === index));
   }
@@ -210,7 +208,63 @@ function initCarousel(carouselId) {
   if (prevBtn) prevBtn.addEventListener("click", () => goTo(index - 1));
   if (nextBtn) nextBtn.addEventListener("click", () => goTo(index + 1));
 
-  // start centered
+  // ---------- Touch swipe + Mouse drag ----------
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+  let startTransform = 0;
+
+  function getClientX(e) {
+    return e.touches ? e.touches[0].clientX : e.clientX;
+  }
+
+  function onStart(e) {
+    isDragging = true;
+    startX = getClientX(e);
+    track.style.transition = "none";          // disable animation while dragging
+  }
+
+  function onMove(e) {
+    if (!isDragging) return;
+    currentX = getClientX(e);
+    const diff = currentX - startX;
+    // optional live drag preview (comment out if you prefer snap-only)
+    // track.style.transform = `translateX(calc(${15}% - ${index * 73}% + ${diff}px))`;
+  }
+
+  function onEnd(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    track.style.transition = "";              // restore animation
+
+    const diff = (e.changedTouches ? e.changedTouches[0].clientX : e.clientX) - startX;
+    const threshold = 50;                     // px needed to trigger slide change
+
+    if (diff > threshold) {
+      goTo(index - 1);                        // swipe right → previous
+    } else if (diff < -threshold) {
+      goTo(index + 1);                        // swipe left → next
+    } else {
+      goTo(index);                            // snap back
+    }
+  }
+
+  // Touch events
+  track.addEventListener("touchstart", onStart, { passive: true });
+  track.addEventListener("touchmove", onMove, { passive: true });
+  track.addEventListener("touchend", onEnd);
+
+  // Mouse events (desktop drag)
+  track.addEventListener("mousedown", onStart);
+  window.addEventListener("mousemove", onMove);
+  window.addEventListener("mouseup", onEnd);
+
+  // Prevent image drag ghost
+  track.querySelectorAll("img").forEach(img => {
+    img.addEventListener("dragstart", e => e.preventDefault());
+  });
+
+  // Start centered
   goTo(0);
 }
 initCarousel("poetry-carousel");
