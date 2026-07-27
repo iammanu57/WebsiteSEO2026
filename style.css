@@ -109,7 +109,7 @@ h1, h2, h3 {
 
 .carousel-slide img {
   width: 100%;
-  height: auto;            /* adjust height as you like */
+  height: 100%;            /* adjust height as you like */
   object-fit: cover;
   display: block;
 }
