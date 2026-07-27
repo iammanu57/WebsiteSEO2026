@@ -197,16 +197,21 @@ function initCarousel(carouselId) {
   function goTo(i) {
     index = (i + total) % total;
   
-    const slide = slides[index];
-    const slideWidth = slide.offsetWidth;
-    const gap = parseFloat(getComputedStyle(slide).marginLeft) +
-                parseFloat(getComputedStyle(slide).marginRight);
+    // total width of all slides before the active one
+    let offset = 0;
+    for (let s = 0; s < index; s++) {
+      const style = getComputedStyle(slides[s]);
+      offset += slides[s].offsetWidth +
+                parseFloat(style.marginLeft) +
+                parseFloat(style.marginRight);
+    }
   
-    // center of the carousel container
+    // center the active slide inside the visible carousel
     const containerWidth = root.offsetWidth;
-    const offset = (containerWidth / 2) - (slideWidth / 2) - (index * (slideWidth + gap));
+    const activeWidth = slides[index].offsetWidth;
+    const centerAdjust = (containerWidth - activeWidth) / 2;
   
-    track.style.transform = `translateX(${offset}px)`;
+    track.style.transform = `translateX(${centerAdjust - offset}px)`;
   
     slides.forEach((s, si) => s.classList.toggle("active", si === index));
     dots.forEach((d, di) => d.classList.toggle("active", di === index));
