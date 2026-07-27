@@ -171,34 +171,47 @@ function initCarousel(carouselId) {
   if (!root) return;
 
   const track = root.querySelector(".carousel-track");
-  const slides = root.querySelectorAll(".carousel-slide");
+  const slides = [...root.querySelectorAll(".carousel-slide")];
   const prevBtn = root.querySelector(".carousel-btn.prev");
   const nextBtn = root.querySelector(".carousel-btn.next");
   const dotsWrap = root.querySelector(".carousel-dots");
+
+  if (!track || slides.length === 0) return;
 
   let index = 0;
   const total = slides.length;
 
   // build dots
-  slides.forEach((_, i) => {
-    const dot = document.createElement("button");
-    dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
-    if (i === 0) dot.classList.add("active");
-    dot.addEventListener("click", () => goTo(i));
-    dotsWrap.appendChild(dot);
-  });
-  const dots = dotsWrap.querySelectorAll("button");
+  if (dotsWrap) {
+    dotsWrap.innerHTML = "";
+    slides.forEach((_, i) => {
+      const dot = document.createElement("button");
+      dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+      dot.addEventListener("click", () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+  }
+  const dots = dotsWrap ? [...dotsWrap.querySelectorAll("button")] : [];
 
   function goTo(i) {
     index = (i + total) % total;
-    track.style.transform = `translateX(-${index * 100}%)`;
+
+    // center the active slide
+    // 70% width + 3% margins → each step is ~73% of container
+    const slideWidthPercent = 73;   // 70 + 1.5 + 1.5
+    const offset = 15;              // (100 - 70) / 2  → centers the active slide
+    track.style.transform = `translateX(calc(${offset}% - ${index * slideWidthPercent}%))`;
+
+    // active state for blur / scale
+    slides.forEach((s, si) => s.classList.toggle("active", si === index));
     dots.forEach((d, di) => d.classList.toggle("active", di === index));
   }
 
-  prevBtn.addEventListener("click", () => goTo(index - 1));
-  nextBtn.addEventListener("click", () => goTo(index + 1));
-}
+  if (prevBtn) prevBtn.addEventListener("click", () => goTo(index - 1));
+  if (nextBtn) nextBtn.addEventListener("click", () => goTo(index + 1));
 
-// initialise both carousels
+  // start centered
+  goTo(0);
+}
 initCarousel("poetry-carousel");
 initCarousel("travel-carousel");
