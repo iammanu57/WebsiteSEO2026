@@ -196,11 +196,18 @@ function initCarousel(carouselId) {
   // ---------- Core navigation ----------
   function goTo(i) {
     index = (i + total) % total;
-
-    const slideWidthPercent = 73;   // 70% + margins
-    const offset = 15;              // centers the active slide
-    track.style.transform = `translateX(calc(${offset}% - ${index * slideWidthPercent}%))`;
-
+  
+    const slide = slides[index];
+    const slideWidth = slide.offsetWidth;
+    const gap = parseFloat(getComputedStyle(slide).marginLeft) +
+                parseFloat(getComputedStyle(slide).marginRight);
+  
+    // center of the carousel container
+    const containerWidth = root.offsetWidth;
+    const offset = (containerWidth / 2) - (slideWidth / 2) - (index * (slideWidth + gap));
+  
+    track.style.transform = `translateX(${offset}px)`;
+  
     slides.forEach((s, si) => s.classList.toggle("active", si === index));
     dots.forEach((d, di) => d.classList.toggle("active", di === index));
   }
