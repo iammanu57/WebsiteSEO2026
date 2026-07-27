@@ -287,3 +287,21 @@ function goTo(i) {
   dots.forEach((d, di) => d.classList.toggle("active", di === index));
 }
 window.addEventListener("resize", () => goTo(index));
+/* ---------- See more / See less for poems ---------- */
+document.querySelectorAll(".poetry-block").forEach((block) => {
+  const textWrap = block.querySelector(".poetry-text");
+  const btn = block.querySelector(".see-more-btn");
+  if (!textWrap || !btn) return;
+
+  // hide button if the poem is already short
+  if (textWrap.scrollHeight <= 220) {
+    btn.style.display = "none";
+    textWrap.classList.remove("collapsed");
+    return;
+  }
+
+  btn.addEventListener("click", () => {
+    const isCollapsed = textWrap.classList.toggle("collapsed");
+    btn.textContent = isCollapsed ? "See more" : "See less";
+  });
+});
