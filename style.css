@@ -181,7 +181,7 @@ h1, h2, h3 {
 @media (max-width: 640px) {
   .carousel { padding: 0 40px; }
   .carousel-slide { flex: 0 0 82%; margin: 0 8px;}
-  .carousel-slide img { height: 340px; }
+  .carousel-slide img { max-height: 340px; }
 }
 /* ---------- Layout Helpers ---------- */
 .container {
