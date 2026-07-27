@@ -109,7 +109,7 @@ h1, h2, h3 {
 
 .carousel-slide img {
   width: 100%;
-  height: 380px;            /* adjust height as you like */
+  height: auto;            /* adjust height as you like */
   object-fit: cover;
   display: block;
 }
@@ -167,7 +167,7 @@ h1, h2, h3 {
 @media (max-width: 640px) {
   .carousel { padding: 0 40px; }
   .carousel-slide { flex: 0 0 85%; }
-  .carousel-slide img { height: 260px; }
+  .carousel-slide img { height: auto; }
 }
 /* ---------- Layout Helpers ---------- */
 .container {
