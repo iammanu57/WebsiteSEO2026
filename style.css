@@ -126,21 +126,33 @@ h1, h2, h3 {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border: none;
   border-radius: 50%;
-  background: var(--color-primary);
+  background: rgba(43, 108, 176, 0.9);
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  line-height: 1;
   cursor: pointer;
-  z-index: 10;
-  opacity: 0.9;
-  transition: opacity 0.2s, background 0.2s;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: background 0.2s, transform 0.2s;
 }
-.carousel-btn:hover { opacity: 1; background: var(--color-primary-dark); }
-.carousel-btn.prev { left: 8px; }
-.carousel-btn.next { right: 8px; }
+.carousel-btn:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-50%) scale(1.08);
+}
+.carousel-btn.prev { left: 12px; }
+.carousel-btn.next { right: 12px; }
+
+/* optional: hide arrows on very small screens if you prefer pure swipe */
+@media (max-width: 480px) {
+  .carousel-btn { width: 40px; height: 40px; font-size: 1.3rem; }
+}
 
 /* Dots */
 .carousel-dots {
