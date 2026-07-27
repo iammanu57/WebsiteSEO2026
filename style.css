@@ -73,7 +73,63 @@ h1, h2, h3 {
   line-height: 1.25;
   color: var(--color-text);
 }
+/* ---------- Carousel ---------- */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  max-width: 720px;
+  margin-inline: auto;
+}
 
+.carousel-track {
+  display: flex;
+  transition: transform 0.4s ease;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 5;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.carousel-btn:hover { opacity: 1; }
+.carousel-btn.prev { left: 8px; }
+.carousel-btn.next { right: 8px; }
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 1rem;
+}
+.carousel-dots button {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-border);
+  cursor: pointer;
+  padding: 0;
+}
+.carousel-dots button.active {
+  background: var(--color-primary);
+}
 /* ---------- Layout Helpers ---------- */
 .container {
   width: 100%;
