@@ -90,8 +90,8 @@ h1, h2, h3 {
 }
 
 .carousel-slide {
-  flex: 0 0 80%;            /* main slide takes 70% width */
-  margin: 0 1%;
+  flex: 0 0 70%;            /* main slide takes 70% width */
+  margin: 0 12px;
   transition: transform 0.45s ease, filter 0.45s ease, opacity 0.45s ease;
   filter: blur(3px);
   opacity: 0.55;
@@ -180,7 +180,7 @@ h1, h2, h3 {
 /* Mobile: make main slide wider */
 @media (max-width: 640px) {
   .carousel { padding: 0 40px; }
-  .carousel-slide { flex: 0 0 85%; }
+  .carousel-slide { flex: 0 0 85%; margin: 0 8px;}
   .carousel-slide img { height: auto; }
 }
 /* ---------- Layout Helpers ---------- */
