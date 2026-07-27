@@ -276,8 +276,8 @@ function goTo(i) {
   const isMobile = window.innerWidth <= 640;
 
   // Match the CSS values
-  const slidePercent = isMobile ? 85 : 70;   // flex-basis
-  const marginPercent = isMobile ? 2 : 1.5;  // left + right margin each side
+  const slidePercent = isMobile ? 85 : 80;   // flex-basis
+  const marginPercent = isMobile ? 2 : 1;  // left + right margin each side
   const step = slidePercent + marginPercent * 2;  // total width one slide occupies
   const offset = (100 - slidePercent) / 2;         // centers the active slide
 
