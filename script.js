@@ -293,6 +293,13 @@ function goTo(i) {
   slides.forEach((s, si) => s.classList.toggle("active", si === index));
   dots.forEach((d, di) => d.classList.toggle("active", di === index));
 }
+if (document.readyState === "complete") {
+  goTo(0);
+} else {
+  window.addEventListener("load", () => goTo(0));
+}
+
+// also re-center on resize
 window.addEventListener("resize", () => goTo(index));
 /* ---------- See more / See less for poems ---------- */
 document.querySelectorAll(".poetry-block").forEach((block) => {
