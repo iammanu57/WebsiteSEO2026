@@ -166,3 +166,39 @@
     });
   }
 })();
+function initCarousel(carouselId) {
+  const root = document.getElementById(carouselId);
+  if (!root) return;
+
+  const track = root.querySelector(".carousel-track");
+  const slides = root.querySelectorAll(".carousel-slide");
+  const prevBtn = root.querySelector(".carousel-btn.prev");
+  const nextBtn = root.querySelector(".carousel-btn.next");
+  const dotsWrap = root.querySelector(".carousel-dots");
+
+  let index = 0;
+  const total = slides.length;
+
+  // build dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement("button");
+    dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+    if (i === 0) dot.classList.add("active");
+    dot.addEventListener("click", () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+  const dots = dotsWrap.querySelectorAll("button");
+
+  function goTo(i) {
+    index = (i + total) % total;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, di) => d.classList.toggle("active", di === index));
+  }
+
+  prevBtn.addEventListener("click", () => goTo(index - 1));
+  nextBtn.addEventListener("click", () => goTo(index + 1));
+}
+
+// initialise both carousels
+initCarousel("poetry-carousel");
+initCarousel("travel-carousel");
